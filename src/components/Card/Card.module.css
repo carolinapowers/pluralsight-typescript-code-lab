@@ -1,0 +1,59 @@
+.card {
+  background-color: var(--color-neutral-50);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.shadow {
+  box-shadow: var(--shadows-base);
+}
+
+.header {
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--typography-fontSize-lg);
+  font-weight: var(--typography-fontWeight-semibold);
+  color: var(--color-neutral-900);
+}
+
+.titleWithSubtitle {
+  margin-bottom: var(--spacing-xs);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--typography-fontSize-sm);
+  color: var(--color-neutral-600);
+}
+
+.content {
+  /* Padding will be applied via modifier classes */
+}
+
+.footer {
+  border-top: 1px solid var(--color-neutral-200);
+  background-color: var(--color-neutral-50);
+}
+
+/* Padding sizes */
+.sm .header,
+.sm .content,
+.sm .footer {
+  padding: var(--spacing-md);
+}
+
+.md .header,
+.md .content,
+.md .footer {
+  padding: var(--spacing-xl);
+}
+
+.lg .header,
+.lg .content,
+.lg .footer {
+  padding: var(--spacing-2xl);
+}
