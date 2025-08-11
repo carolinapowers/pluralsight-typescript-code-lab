@@ -1,41 +1,26 @@
 # Design Token System
 
-## Overview
+A TypeScript-first design token system that provides type safety, performance, and maintainability through automated CSS variable generation and CSS Modules integration.
 
-This project uses a TypeScript-first approach to design tokens, ensuring type safety while maintaining the performance benefits of CSS Modules.
-
-## Architecture
+## Architecture Overview
 
 ```
 TypeScript Tokens (Source of Truth)
         ↓
-    Generate CSS Variables
+    Generated CSS Variables
         ↓
-    CSS Modules Reference Variables
+    CSS Modules + TypeScript Plugin
         ↓
-    Components Use Type-Safe Classes
+    Type-Safe Components
 ```
 
-## Key Files
-
-### Token Definitions (TypeScript)
-- `src/tokens/colors.ts` - Color palette definitions
-- `src/tokens/spacing.ts` - Spacing scale
-- `src/tokens/typography.ts` - Font families, sizes, weights
-- `src/tokens/shadows.ts` - Box shadow definitions
-
-### Token Generation
-- `src/utils/generateCSSVariables.ts` - Converts TS tokens to CSS variables
-- `scripts/generate-css-vars.ts` - CLI script to run generation
-- `src/styles/tokens.css` - Generated CSS variables (committed to git)
-
-### Usage in Components
-- `src/components/**/*.module.css` - CSS Modules using CSS variables
-- `src/components/**/*.tsx` - Type-safe component implementations
+**Key Principle**: Design decisions are defined once in TypeScript and automatically flow through the entire styling system with full type validation.
 
 ## How It Works
 
-### 1. Define Tokens in TypeScript
+### 1. TypeScript Design Tokens
+All design decisions are defined in TypeScript for maximum type safety:
+
 ```typescript
 // src/tokens/colors.ts
 export const Colors = {
@@ -46,12 +31,14 @@ export const Colors = {
 }
 ```
 
-### 2. Generate CSS Variables
+### 2. Automatic CSS Generation
+The system generates CSS custom properties from TypeScript tokens:
+
 ```bash
 npm run generate:css
 ```
 
-This creates:
+Creates:
 ```css
 /* src/styles/tokens.css */
 :root {
@@ -60,7 +47,9 @@ This creates:
 }
 ```
 
-### 3. Use in CSS Modules
+### 3. CSS Modules Integration
+CSS modules reference the generated variables:
+
 ```css
 /* Button.module.css */
 .primary {
@@ -71,91 +60,138 @@ This creates:
 }
 ```
 
-### 4. Type-Safe Component Usage
+### 4. Type-Safe Components
+Components use TypeScript props that map to CSS classes:
+
 ```typescript
 // Button.tsx
 import { ButtonProps } from '../../types/component';
 import styles from './Button.module.css';
 
 export const Button: React.FC<ButtonProps> = ({ variant }) => {
-  // TypeScript ensures variant is valid
-  // CSS Module ensures class exists
   return <button className={styles[variant]}>Click</button>
+  // ↑ TypeScript validates variant prop
+  // ↑ CSS Modules plugin validates styles.variant exists
 }
 ```
 
-## Benefits
+## Two-Layer Type Safety
 
-1. **Single Source of Truth**: All design decisions in TypeScript
-2. **Type Safety**: Props validated at compile time
-3. **Performance**: CSS Modules = zero runtime overhead
-4. **Maintainability**: Change tokens once, regenerate CSS
-5. **Developer Experience**: Full IntelliSense support
-6. **No Inline Styles**: Clean separation of concerns
+### Layer 1: Custom Token System
+- **Purpose**: Validates design consistency and component prop types
+- **What it checks**: Ensures variant/size props match design token definitions
+- **Files**: `src/tokens/*.ts`, `src/types/component.ts`
 
-## Commands
-
-```bash
-# Type checking (multiple options)
-npm run typecheck              # Quick TypeScript checking
-npm run typecheck:with-tokens   # Full validation with fresh token generation
-npm run typecheck:full         # Alias for complete type checking
-
-# Generate CSS variables from tokens
-npm run generate:css
-
-# Format all code including CSS
-npm run format
-
-# Build and test (includes automatic type checking)
-npm run build    # Runs typecheck:full before building
-npm run test     # Runs typecheck:full before testing
+```typescript
+// Type safety for design values
+type ButtonProps = {
+  variant: 'primary' | 'secondary'  // ← Validated by our token types
+}
 ```
 
-### Type Checking Strategy
+### Layer 2: CSS Modules Plugin
+- **Purpose**: Validates CSS class names actually exist
+- **What it checks**: Ensures CSS module imports reference valid classes
+- **Plugin**: `typescript-plugin-css-modules`
 
-The project uses a layered type checking approach:
+```typescript
+// Type safety for CSS classes
+styles.primary  // ✅ Plugin ensures this class exists in CSS
+styles.wrong    // ❌ Plugin shows TypeScript error
+```
 
-1. **`typecheck`** - Fast standard TypeScript checking for quick feedback
-2. **`typecheck:with-tokens`** - Complete validation including:
-   - Fresh CSS variable generation from tokens
-   - TypeScript compilation with CSS Modules plugin
-   - Validation of both token consistency and CSS class usage
-3. **`typecheck:full`** - Comprehensive validation (same as above, cleaner name)
+### How They Complement Each Other
 
-**Automatic Integration:**
-- `npm run build` → Always runs full type checking first
-- `npm run test` → Always runs full type checking first  
-- `npm run dev` → Only generates CSS (for faster startup)
+```typescript
+const Button = ({ variant }: ButtonProps) => {
+  // Layer 1: TypeScript ensures variant is 'primary' | 'secondary' 
+  // Layer 2: Plugin ensures styles[variant] class exists in CSS
+  return <button className={styles[variant]} />
+}
+
+// Both layers working together:
+<Button variant="primary" />   // ✅ Valid design token + CSS class exists
+<Button variant="purple" />    // ❌ Layer 1: Invalid design token
+<Button variant="primary" />   // ❌ Layer 2: If .primary missing from CSS
+```
+
+## Project Structure
+
+### Token Files
+- `src/tokens/colors.ts` - Color palette
+- `src/tokens/spacing.ts` - Spacing scale  
+- `src/tokens/typography.ts` - Typography system
+- `src/tokens/shadows.ts` - Shadow definitions
+
+### Generated Files
+- `src/styles/tokens.css` - CSS variables (auto-generated, committed to git)
+
+### System Files
+- `src/utils/generateCSSVariables.ts` - Token to CSS converter
+- `scripts/generate-css-vars.ts` - CLI generation script
+- `src/vite-env.d.ts` - CSS module type declarations
+- `tsconfig.json` - TypeScript plugin configuration
+
+### Component Files
+- `src/components/**/*.module.css` - Scoped component styles
+- `src/components/**/*.tsx` - Type-safe component implementations
+
+## Available Scripts
+
+### Type Checking
+```bash
+npm run typecheck              # Quick TypeScript validation
+npm run typecheck:with-tokens  # Full validation with fresh CSS generation  
+npm run typecheck:full         # Comprehensive validation (alias)
+```
+
+### Development
+```bash
+npm run generate:css  # Generate CSS variables from tokens
+npm run dev          # Start development (auto-generates CSS)
+npm run build        # Build project (includes full type checking)
+npm run test         # Run tests (includes full type checking)
+```
+
+### Code Quality
+```bash
+npm run format       # Format code with Prettier
+npm run lint         # Lint TypeScript and React code
+```
+
+## Automatic Validation
+
+The system includes automatic type checking to prevent broken builds:
+
+- **`npm run build`** → Runs `typecheck:full` before compilation
+- **`npm run test`** → Runs `typecheck:full` before test execution
+- **`npm run dev`** → Generates fresh CSS on startup
+
+This ensures:
+1. Design tokens are always fresh
+2. CSS variables match TypeScript definitions
+3. CSS classes exist for all component usage
+4. No broken styles reach production
+
+## Key Benefits
+
+- **🔒 Type Safety**: End-to-end validation from design tokens to components
+- **⚡ Performance**: Zero runtime overhead - all styling handled by CSS
+- **🎯 Single Source of Truth**: All design decisions originate from TypeScript
+- **🔄 Automatic Sync**: CSS variables stay synchronized with token changes
+- **🛠️ Developer Experience**: Full IntelliSense, auto-completion, and refactoring
+- **📦 Build Safety**: Comprehensive validation prevents deployment of broken styles
 
 ## Best Practices
 
-1. **Always regenerate** CSS after modifying token files
-2. **Commit tokens.css** to version control (it's needed for builds)
-3. **Use semantic names** for tokens (e.g., `primary-500` not `blue`)
-4. **Keep tokens flat** when possible for easier CSS variable names
+1. **Update tokens, not CSS**: Modify `src/tokens/*.ts` files rather than CSS directly
+2. **Run generation**: Use `npm run generate:css` after token changes
+3. **Semantic naming**: Use design-focused names (`primary-500` not `blue`)
+4. **Commit generated CSS**: `tokens.css` is required for builds and should be committed
 
-## Migration Guide
+## Configuration
 
-To migrate a component from inline styles to CSS Modules:
-
-1. Create a `.module.css` file next to the component
-2. Move styles to CSS classes using token variables
-3. Import the CSS module in the component
-4. Replace `style` props with `className`
-5. Ensure type safety by using TypeScript props
-
-## CSS Modules TypeScript Plugin
-
-The project includes `typescript-plugin-css-modules` which provides type safety for CSS class names:
-
-### What It Does
-- ✅ **Type Safety**: Validates CSS class names exist at compile time
-- ✅ **IntelliSense**: Auto-completion for CSS module classes
-- ✅ **Refactoring**: Safe renaming across CSS and TypeScript files
-- ✅ **Error Prevention**: Catches typos in class names during development
-
-### Configuration
+### TypeScript Plugin Setup
 ```json
 // tsconfig.json
 {
@@ -167,51 +203,7 @@ The project includes `typescript-plugin-css-modules` which provides type safety 
 }
 ```
 
-### How It Works
-```typescript
-// Component usage - fully type-safe!
-import styles from './Button.module.css';
-
-export const Button = ({ variant }: ButtonProps) => {
-  return (
-    <button 
-      className={styles[variant]}  // ✅ Plugin validates this class exists
-      // styles.wrongClass would show TypeScript error
-    >
-  )
-}
-```
-
-### IDE Setup
-- **VS Code**: Plugin works automatically with TypeScript language service
-- **Restart TS Server**: Use "TypeScript: Restart TS Server" after plugin installation
-- **IntelliSense**: Get auto-completion when typing `styles.`
-
-## Complete Type Safety Stack
-
-This project provides end-to-end type safety:
-
-1. **Design Tokens** (TypeScript) → Ensures consistent design values
-2. **CSS Variables** (Generated) → Runtime styling with token values  
-3. **CSS Modules** (Scoped) → Prevents style conflicts
-4. **TypeScript Plugin** → Validates class name usage
-5. **Component Props** → Type-safe variant/size props
-
-```typescript
-// Full type safety example:
-type ButtonProps = {
-  variant: 'primary' | 'secondary'  // ← Your token types
-  size: 'sm' | 'md' | 'lg'         // ← Your token types
-}
-
-const Button = ({ variant, size }: ButtonProps) => {
-  // Both variant/size AND CSS classes are validated!
-  return <button className={`${styles.button} ${styles[variant]} ${styles[size]}`} />
-}
-```
-
-## Future Enhancements
-
-- Consider Style Dictionary for more complex transformations
-- Add dark mode support with CSS variable swapping
-- Explore CSS-in-TS solutions (Vanilla Extract, Stitches) for advanced use cases
+### VS Code Integration
+- Plugin works automatically with TypeScript language service
+- Restart TS server after plugin installation: `Cmd+Shift+P` → "TypeScript: Restart TS Server"
+- Auto-completion available when typing `styles.`
