@@ -20,6 +20,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    /* TypeScript plugins */
+    "plugins": [
+      { "name": "typescript-plugin-css-modules" }
+    ],
+
     /* Path mapping for cleaner imports */
     "baseUrl": ".",
     "paths": {

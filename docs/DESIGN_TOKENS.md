@@ -96,15 +96,37 @@ export const Button: React.FC<ButtonProps> = ({ variant }) => {
 ## Commands
 
 ```bash
+# Type checking (multiple options)
+npm run typecheck              # Quick TypeScript checking
+npm run typecheck:with-tokens   # Full validation with fresh token generation
+npm run typecheck:full         # Alias for complete type checking
+
 # Generate CSS variables from tokens
 npm run generate:css
 
 # Format all code including CSS
 npm run format
 
-# Build the project
-npm run build
+# Build and test (includes automatic type checking)
+npm run build    # Runs typecheck:full before building
+npm run test     # Runs typecheck:full before testing
 ```
+
+### Type Checking Strategy
+
+The project uses a layered type checking approach:
+
+1. **`typecheck`** - Fast standard TypeScript checking for quick feedback
+2. **`typecheck:with-tokens`** - Complete validation including:
+   - Fresh CSS variable generation from tokens
+   - TypeScript compilation with CSS Modules plugin
+   - Validation of both token consistency and CSS class usage
+3. **`typecheck:full`** - Comprehensive validation (same as above, cleaner name)
+
+**Automatic Integration:**
+- `npm run build` → Always runs full type checking first
+- `npm run test` → Always runs full type checking first  
+- `npm run dev` → Only generates CSS (for faster startup)
 
 ## Best Practices
 
@@ -123,8 +145,73 @@ To migrate a component from inline styles to CSS Modules:
 4. Replace `style` props with `className`
 5. Ensure type safety by using TypeScript props
 
+## CSS Modules TypeScript Plugin
+
+The project includes `typescript-plugin-css-modules` which provides type safety for CSS class names:
+
+### What It Does
+- ✅ **Type Safety**: Validates CSS class names exist at compile time
+- ✅ **IntelliSense**: Auto-completion for CSS module classes
+- ✅ **Refactoring**: Safe renaming across CSS and TypeScript files
+- ✅ **Error Prevention**: Catches typos in class names during development
+
+### Configuration
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "plugins": [
+      { "name": "typescript-plugin-css-modules" }
+    ]
+  }
+}
+```
+
+### How It Works
+```typescript
+// Component usage - fully type-safe!
+import styles from './Button.module.css';
+
+export const Button = ({ variant }: ButtonProps) => {
+  return (
+    <button 
+      className={styles[variant]}  // ✅ Plugin validates this class exists
+      // styles.wrongClass would show TypeScript error
+    >
+  )
+}
+```
+
+### IDE Setup
+- **VS Code**: Plugin works automatically with TypeScript language service
+- **Restart TS Server**: Use "TypeScript: Restart TS Server" after plugin installation
+- **IntelliSense**: Get auto-completion when typing `styles.`
+
+## Complete Type Safety Stack
+
+This project provides end-to-end type safety:
+
+1. **Design Tokens** (TypeScript) → Ensures consistent design values
+2. **CSS Variables** (Generated) → Runtime styling with token values  
+3. **CSS Modules** (Scoped) → Prevents style conflicts
+4. **TypeScript Plugin** → Validates class name usage
+5. **Component Props** → Type-safe variant/size props
+
+```typescript
+// Full type safety example:
+type ButtonProps = {
+  variant: 'primary' | 'secondary'  // ← Your token types
+  size: 'sm' | 'md' | 'lg'         // ← Your token types
+}
+
+const Button = ({ variant, size }: ButtonProps) => {
+  // Both variant/size AND CSS classes are validated!
+  return <button className={`${styles.button} ${styles[variant]} ${styles[size]}`} />
+}
+```
+
 ## Future Enhancements
 
-- Add CSS Modules TypeScript plugin for class name validation
 - Consider Style Dictionary for more complex transformations
 - Add dark mode support with CSS variable swapping
+- Explore CSS-in-TS solutions (Vanilla Extract, Stitches) for advanced use cases
