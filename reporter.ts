@@ -72,11 +72,15 @@ export default class CustomReporter implements Reporter {
       }
       
       if (customMessage) {
-        // Format the message to fit 68 characters per line
-        const matches = customMessage.match(/\S.{1,68}\S(?= |$)/g)
-        const formattedMessage = matches ? matches.join("\n") : customMessage
-        
-        console.log(formattedMessage)
+        // If message already contains line breaks, respect them
+        // Otherwise, format to fit 68 characters per line
+        if (customMessage.includes('\n')) {
+          console.log(customMessage)
+        } else {
+          const matches = customMessage.match(/\S.{1,68}\S(?= |$)/g)
+          const formattedMessage = matches ? matches.join("\n") : customMessage
+          console.log(formattedMessage)
+        }
       } else {
         // Fallback to first message
         console.log(allFailureMessages[0])
