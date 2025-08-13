@@ -33,8 +33,8 @@ describe('Step 2: Import Chaos', () => {
       const result = hasFormatNumberImport && hasFormatNumberIdentifier
       expect(
         result,
-        "Add formatNumber to your import from './utils/formatters'.\n" +
-        "Update to: { formatCurrency, formatDate, formatNumber }"
+        "Add formatNumber to the import from './utils/formatters'.\n" +
+        "Use: { formatCurrency, formatDate, formatNumber }"
       ).toBe(true)
     })
 
@@ -56,7 +56,7 @@ describe('Step 2: Import Chaos', () => {
       const result = hasPurchasedByText && hasFormatNumberCall
       expect(
         result,
-        'Add to your Product Card:\n' +
+        'Add this text to the Product Card:\n' +
         '"Purchased by {formatNumber(15789)} developers"'
       ).toBe(true)
     })
@@ -73,7 +73,7 @@ describe('Step 2: Import Chaos', () => {
       
       expect(
         formatNumberWith15789,
-        'Call formatNumber with the number 15789: formatNumber(15789)'
+        'Call formatNumber(15789)'
       ).toBe(true)
     })
   })
@@ -93,8 +93,8 @@ describe('Step 2: Import Chaos', () => {
       const hasAnyNamespaceImports = hasNamespaceFormatters || hasNamespaceValidators
       expect(
         hasAnyNamespaceImports,
-        'Good! Remove the temporary namespace imports\n' +
-        '(import * as AllFormatters) after discovering utilities.'
+        'Remove the temporary namespace imports\n' +
+        '(import * as AllFormatters) after discovery.'
       ).toBe(false)
     })
 
@@ -112,7 +112,7 @@ describe('Step 2: Import Chaos', () => {
       const hasDiscoveryConsoleLog = hasConsoleLogFormatters || hasConsoleLogValidators
       expect(
         hasDiscoveryConsoleLog,
-        'Great! Clean up the console.log statements\n' +
+        'Remove the console.log statements\n' +
         'used for utility discovery.'
       ).toBe(false)
     })
@@ -135,7 +135,7 @@ describe('Step 2: Import Chaos', () => {
       const result = hasOriginalFormattersImport && hasOriginalValidatorsImport && hasFormatNumberImport
       expect(
         result,
-        'Complete the discovery process:\n' +
+        'Complete these steps:\n' +
         '1) Keep original imports from formatters and validators\n' +
         '2) Add formatNumber to formatters import\n' +
         '3) Remove temporary namespace imports and console.log statements'
@@ -160,9 +160,8 @@ describe('Step 2: Import Chaos', () => {
       
       expect(
         importCount >= 4,
-        'Import chaos demonstrated!\n' +
-        'You have at least 4 component imports.\n' +
-        'Barrel files will solve this repetitive pattern.'
+        'You need at least 4 component imports.\n' +
+        'This shows the repetitive pattern that barrel files solve.'
       ).toBe(true)
     })
 
@@ -179,9 +178,8 @@ describe('Step 2: Import Chaos', () => {
       
       expect(
         hasUtilityImports,
-        'Path complexity shown!\n' +
-        'Multiple separate utility imports will be\n' +
-        'simplified with barrel files in next steps.'
+        'Keep both utility imports.\n' +
+        'These will be simplified with barrel files in Step 3.'
       ).toBe(true)
     })
   })
@@ -196,8 +194,8 @@ describe('Step 2: Import Chaos', () => {
       const result = hasReactImport && hasFormattersImport && hasValidatorsImport
       expect(
         result,
-        'Perfect! Your App.tsx has the necessary imports.\n' +
-        'Ready to create barrel files in Step 3!'
+        'Your App.tsx has the necessary imports.\n' +
+        'Continue to Step 3.'
       ).toBe(true)
     })
   })
@@ -214,8 +212,7 @@ describe('Step 2: Import Chaos', () => {
       const result = hasFormatNumber && hasFormatCurrency && hasFormatDate
       expect(
         result,
-        'All formatter utilities should be accessible.\n' +
-        'Check utils/formatters exports:\n' +
+        'Verify utils/formatters exports:\n' +
         'formatNumber, formatCurrency, and formatDate.'
       ).toBe(true)
       

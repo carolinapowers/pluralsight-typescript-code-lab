@@ -1,22 +1,22 @@
-# **Step 2: Experience Import Chaos - Feel the Pain**
+# Step 2: Experience Import Chaos - Feel the Pain
 
-## **Getting Started**
+## Getting Started
 
-Before exploring the code, let's get your app running:
+Before exploring the code, you'll get your app running:
 
-1. **Open the terminal** and run:
+1. Open **Terminal** and run:
    ```bash
    npm run dev
    ```
-2. Vite will start the development server at `http://localhost:5173`
-3. **Click the URL** in the terminal output to open your app
-4. Keep this browser tab open - changes will auto-refresh thanks to hot module reload
+2. Vite starts the development server at `http://localhost:5173`
+3. Click the URL in **Terminal** to open your app
+4. Keep this browser tab open - changes auto-refresh thanks to hot module reload
 
 You should see the Design System Showcase with buttons, inputs, cards, and other components.
 
-## **The Current State**
+## The Current State
 
-Open `src/App.tsx` in the editor. Notice the 8 import statements needed for just 5 components and 3 utilities:
+Open `src/App.tsx` in the editor. You'll see 8 import statements needed for just 5 components and 3 utilities:
 
 ```typescript
 import React, { useState } from 'react';
@@ -32,24 +32,24 @@ import styles from './App.module.css';
 
 The repetitive `./components/[Name]/[Name]` pattern becomes painful as applications grow.
 
-## **Task 1: Add Number Formatting**
+## Task 1: Add Number Formatting
 
-Your app displays prices and dates but not formatted numbers. Let's add that capability.
+Your app displays prices and dates but not formatted numbers. You'll add that capability.
 
-**Objective**: Import and use the `formatNumber` utility to display a purchase count.
+Import and use the `formatNumber` utility to display a purchase count.
 
 1. Explore `src/utils/formatters.ts` to find available formatting functions
 2. Add `formatNumber` to your existing formatter imports in `App.tsx`
-3. In the Product Card section (around line 90), add a line showing: "Purchased by 15,789 developers"
-4. Save and verify the formatted number appears in your browser
+3. In the **Product Card** section, add: "Purchased by 15,789 developers"
+4. Save the file and verify the formatted number appears in your browser
 
-**Success Criteria**: You see "Purchased by 15,789 developers" with proper comma formatting in the Product Card.
+You'll see "Purchased by 15,789 developers" with proper comma formatting in the **Product Card**.
 
-## **Task 2: Discover Hidden Utilities**
+## Task 2: Discover Hidden Utilities
 
-Most utilities remain unused because developers don't know they exist. Let's reveal what's hidden.
+Most utilities remain unused because developers don't know they exist. You'll discover what's hidden.
 
-**Objective**: Use console logging to discover all available but unused utilities.
+Use console logging to discover all available but unused utilities.
 
 1. Import all formatters and validators using namespace imports:
    ```typescript
@@ -59,15 +59,15 @@ Most utilities remain unused because developers don't know they exist. Let's rev
 
 2. Add console logs inside your App component to list available functions
 
-3. Open your browser's Developer Console (F12) to see the output
+3. Open **Developer Console** (`F12`) to see the output
 
 4. Count how many utilities you're NOT using
 
-5. **Important**: Remove these temporary imports and console logs after reviewing
+5. Remove these temporary imports and console logs after reviewing
 
-**Success Criteria**: You can identify at least 7 unused utility functions in the console.
+You'll identify at least 7 unused utility functions in the console.
 
-## **Understanding the Problem**
+## Understanding the Problem
 
 This simplified example has:
 - 5 components
@@ -87,15 +87,15 @@ Each new feature requires:
 3. Remembering exact paths
 4. Fixing broken imports when files move
 
-## **Verification Checkpoint**
+## Verification Checkpoint
 
-Before continuing, confirm:
-- ✅ Development server running at `http://localhost:5173`
-- ✅ "Purchased by 15,789 developers" displays with comma formatting
-- ✅ You discovered 7+ unused utilities via console logging
-- ✅ File changes automatically refresh in the browser
+Before continuing, verify:
+- Development server runs at `http://localhost:5173`
+- "Purchased by 15,789 developers" displays with comma formatting
+- You discovered 7+ unused utilities via console logging
+- File changes automatically refresh in the browser
 
-## **What's Next**
+## What's Next
 
 You've experienced the import chaos firsthand. You see how:
 - Import statements multiply quickly
@@ -114,9 +114,6 @@ Into this:
 import { formatCurrency, formatDate, formatNumber, isValidEmail } from './utils';
 ```
 
-The relief begins next!
 
----
-
-**Continue to Step 3** → Create Your First Barrel File
+Continue to Step 3: Create Your First Barrel File
 
