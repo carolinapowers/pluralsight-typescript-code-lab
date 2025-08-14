@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import { Badge } from './components/Badge/Badge';
-import { Button } from './components/Button/Button';
-import { Card } from './components/Card/Card';
-import { Input } from './components/Input/Input';
-import { Modal } from './components/Modal/Modal';
+import { Badge, Button, Card, Input, Modal } from './components';
 import { formatCurrency, formatDate, formatNumber, isValidEmail } from './utils';
 import styles from './App.module.css';
 
