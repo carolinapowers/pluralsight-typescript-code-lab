@@ -62,11 +62,11 @@ describe('Step 3: Barrel File Creation', () => {
       
       const hasFormattersExport = includes(
         barrelAst,
-        'ExportAllDeclaration StringLiteral[value="./formatters"]'
+        'ExportDeclaration StringLiteral[value="./formatters"]'
       )
       const hasValidatorsExport = includes(
         barrelAst,
-        'ExportAllDeclaration StringLiteral[value="./validators"]'
+        'ExportDeclaration StringLiteral[value="./validators"]'
       )
       
       const result = hasFormattersExport && hasValidatorsExport
