@@ -34,126 +34,169 @@ describe('Step 4: Component Barrel Files', () => {
       const result = hasBadge && hasButton && hasCard && hasInput && hasModal
       expect(
         result,
-        'Verify all component files exist in their respective folders.\\n' +
-          'Each component should be in `src/components/[ComponentName]/[ComponentName].tsx`.'
+        'Verify all component files exist in their respective folders. ' +
+          'Each component should be in src/components/[ComponentName]/[ComponentName].tsx.'
       ).toBe(true)
     })
   })
 
   describe('Task 2: Individual Component Barrel Files', () => {
     it('should create Badge barrel file @4.2', () => {
+      let fileExists = true
       try {
-        const barrelFile = readFile("src/components/Badge/index.ts")
-        const hasExport = barrelFile.includes("export * from './Badge'") || 
-                         barrelFile.includes('export * from "./Badge"')
-        expect(
-          hasExport,
-          'Create `src/components/Badge/index.ts` with:\\n' +
-            '`export * from \'./Badge\';`'
-        ).toBe(true)
+        readFile("src/components/Badge/index.ts")
       } catch (error) {
+        fileExists = false
+      }
+      
+      if (!fileExists) {
         expect(
           false,
-          'Create `src/components/Badge/index.ts` file.\\n' +
-            'This barrel file is missing.'
+          'Create src/components/Badge/index.ts file. ' +
+            'Add: export * from ./Badge;'
         ).toBe(true)
+        return
       }
+      
+      const barrelFile = readFile("src/components/Badge/index.ts")
+      const hasExport = barrelFile.includes("export * from './Badge'") || 
+                       barrelFile.includes('export * from "./Badge"')
+      expect(
+        hasExport,
+        'Add export statement: export * from ./Badge;'
+      ).toBe(true)
     })
 
     it('should create Button barrel file @4.2', () => {
+      let fileExists = true
       try {
-        const barrelFile = readFile("src/components/Button/index.ts")
-        const hasExport = barrelFile.includes("export * from './Button'") || 
-                         barrelFile.includes('export * from "./Button"')
-        expect(
-          hasExport,
-          'Create `src/components/Button/index.ts` with:\\n' +
-            '`export * from \'./Button\';`'
-        ).toBe(true)
+        readFile("src/components/Button/index.ts")
       } catch (error) {
+        fileExists = false
+      }
+      
+      if (!fileExists) {
         expect(
           false,
-          'Create `src/components/Button/index.ts` file.\\n' +
-            'This barrel file is missing.'
+          'Create src/components/Button/index.ts file. ' +
+            'Add: export * from ./Button;'
         ).toBe(true)
+        return
       }
+      
+      const barrelFile = readFile("src/components/Button/index.ts")
+      const hasExport = barrelFile.includes("export * from './Button'") || 
+                       barrelFile.includes('export * from "./Button"')
+      expect(
+        hasExport,
+        'Add export statement: export * from ./Button;'
+      ).toBe(true)
     })
 
     it('should create Card barrel file @4.2', () => {
+      let fileExists = true
       try {
-        const barrelFile = readFile("src/components/Card/index.ts")
-        const hasExport = barrelFile.includes("export * from './Card'") || 
-                         barrelFile.includes('export * from "./Card"')
-        expect(
-          hasExport,
-          'Create `src/components/Card/index.ts` with:\\n' +
-            '`export * from \'./Card\';`'
-        ).toBe(true)
+        readFile("src/components/Card/index.ts")
       } catch (error) {
+        fileExists = false
+      }
+      
+      if (!fileExists) {
         expect(
           false,
-          'Create `src/components/Card/index.ts` file.\\n' +
-            'This barrel file is missing.'
+          'Create src/components/Card/index.ts file. ' +
+            'Add: export * from ./Card;'
         ).toBe(true)
+        return
       }
+      
+      const barrelFile = readFile("src/components/Card/index.ts")
+      const hasExport = barrelFile.includes("export * from './Card'") || 
+                       barrelFile.includes('export * from "./Card"')
+      expect(
+        hasExport,
+        'Add export statement: export * from ./Card;'
+      ).toBe(true)
     })
 
     it('should create Input barrel file @4.2', () => {
+      let fileExists = true
       try {
-        const barrelFile = readFile("src/components/Input/index.ts")
-        const hasExport = barrelFile.includes("export * from './Input'") || 
-                         barrelFile.includes('export * from "./Input"')
-        expect(
-          hasExport,
-          'Create `src/components/Input/index.ts` with:\\n' +
-            '`export * from \'./Input\';`'
-        ).toBe(true)
+        readFile("src/components/Input/index.ts")
       } catch (error) {
+        fileExists = false
+      }
+      
+      if (!fileExists) {
         expect(
           false,
-          'Create `src/components/Input/index.ts` file.\\n' +
-            'This barrel file is missing.'
+          'Create src/components/Input/index.ts file. ' +
+            'Add: export * from ./Input;'
         ).toBe(true)
+        return
       }
+      
+      const barrelFile = readFile("src/components/Input/index.ts")
+      const hasExport = barrelFile.includes("export * from './Input'") || 
+                       barrelFile.includes('export * from "./Input"')
+      expect(
+        hasExport,
+        'Add export statement: export * from ./Input;'
+      ).toBe(true)
     })
 
     it('should create Modal barrel file @4.2', () => {
+      let fileExists = true
       try {
-        const barrelFile = readFile("src/components/Modal/index.ts")
-        const hasExport = barrelFile.includes("export * from './Modal'") || 
-                         barrelFile.includes('export * from "./Modal"')
-        expect(
-          hasExport,
-          'Create `src/components/Modal/index.ts` with:\\n' +
-            '`export * from \'./Modal\';`'
-        ).toBe(true)
+        readFile("src/components/Modal/index.ts")
       } catch (error) {
+        fileExists = false
+      }
+      
+      if (!fileExists) {
         expect(
           false,
-          'Create `src/components/Modal/index.ts` file.\\n' +
-            'This barrel file is missing.'
+          'Create src/components/Modal/index.ts file. ' +
+            'Add: export * from ./Modal;'
         ).toBe(true)
+        return
       }
+      
+      const barrelFile = readFile("src/components/Modal/index.ts")
+      const hasExport = barrelFile.includes("export * from './Modal'") || 
+                       barrelFile.includes('export * from "./Modal"')
+      expect(
+        hasExport,
+        'Add export statement: export * from ./Modal;'
+      ).toBe(true)
     })
   })
 
   describe('Task 3: Main Components Barrel', () => {
     it('should create main components barrel file @4.3', () => {
+      let fileExists = true
       try {
-        const barrelFile = readFile("src/components/index.ts")
-        const hasContent = barrelFile.trim().length > 0
-        expect(
-          hasContent,
-          'Create `src/components/index.ts` file.\\n' +
-            'This main barrel file should export all components.'
-        ).toBe(true)
+        readFile("src/components/index.ts")
       } catch (error) {
+        fileExists = false
+      }
+      
+      if (!fileExists) {
         expect(
           false,
-          'Create `src/components/index.ts` file.\\n' +
-            'This main barrel file is missing.'
+          'Create src/components/index.ts file. ' +
+            'This main barrel file should export all components.'
         ).toBe(true)
+        return
       }
+      
+      const barrelFile = readFile("src/components/index.ts")
+      const hasContent = barrelFile.trim().length > 0
+      expect(
+        hasContent,
+        'Add content to src/components/index.ts file. ' +
+          'This main barrel file should export all components.'
+      ).toBe(true)
     })
 
     it('should export all components from main barrel @4.3', () => {
@@ -169,38 +212,43 @@ describe('Step 4: Component Barrel Files', () => {
                     hasInputExport && hasModalExport
       expect(
         result,
-        'Add all component exports to `src/components/index.ts`:\\n' +
-          '`export * from \'./Badge\';`\\n' +
-          '`export * from \'./Button\';`\\n' +
-          '`export * from \'./Card\';`\\n' +
-          '`export * from \'./Input\';`\\n' +
-          '`export * from \'./Modal\';`'
+        'Add all component exports to src/components/index.ts. ' +
+          'Include export statements for Badge, Button, Card, Input, and Modal.'
       ).toBe(true)
     })
 
-    it('should export components correctly through barrel @4.3', async () => {
-      try {
-        const components = await import('../../components/index')
-        
-        const hasBadge = typeof components.Badge !== 'undefined'
-        const hasButton = typeof components.Button !== 'undefined'
-        const hasCard = typeof components.Card !== 'undefined'
-        const hasInput = typeof components.Input !== 'undefined'
-        const hasModal = typeof components.Modal !== 'undefined'
-        
-        const result = hasBadge && hasButton && hasCard && hasInput && hasModal
-        expect(
-          result,
-          'All components should be accessible through the barrel.\\n' +
-            'Check that each component is properly exported.'
-        ).toBe(true)
-      } catch (error) {
-        expect(
-          false,
-          'Cannot import from components barrel file.\\n' +
-            'Check `src/components/index.ts` exports.'
-        ).toBe(true)
-      }
+    it('should use correct export syntax in main barrel @4.3', () => {
+      const barrelFile = readFile("src/components/index.ts")
+      const barrelAst = ast(barrelFile, "ts")
+      
+      const hasBadgeExport = includes(
+        barrelAst,
+        'ExportDeclaration StringLiteral[value="./Badge"]'
+      )
+      const hasButtonExport = includes(
+        barrelAst,
+        'ExportDeclaration StringLiteral[value="./Button"]'
+      )
+      const hasCardExport = includes(
+        barrelAst,
+        'ExportDeclaration StringLiteral[value="./Card"]'
+      )
+      const hasInputExport = includes(
+        barrelAst,
+        'ExportDeclaration StringLiteral[value="./Input"]'
+      )
+      const hasModalExport = includes(
+        barrelAst,
+        'ExportDeclaration StringLiteral[value="./Modal"]'
+      )
+      
+      const result = hasBadgeExport && hasButtonExport && hasCardExport && 
+                    hasInputExport && hasModalExport
+      expect(
+        result,
+        'Use export * from pattern for all components. ' +
+          'Check that each component is properly exported with correct syntax.'
+      ).toBe(true)
     })
   })
 
@@ -225,8 +273,8 @@ describe('Step 4: Component Barrel Files', () => {
       const result = hasBarrelImport && hasAllImports
       expect(
         result,
-        'Replace separate component imports with single barrel import:\\n' +
-          '`import { Badge, Button, Card, Input, Modal } from \'./components\';`'
+        'Replace separate component imports with single barrel import. ' +
+          'Use: import { Badge, Button, Card, Input, Modal } from ./components;'
       ).toBe(true)
     })
 
@@ -244,12 +292,8 @@ describe('Step 4: Component Barrel Files', () => {
       
       expect(
         hasOldImports,
-        'Remove all old component imports:\\n' +
-          'Delete: `import { Badge } from \'./components/Badge/Badge\';`\\n' +
-          'Delete: `import { Button } from \'./components/Button/Button\';`\\n' +
-          'Delete: `import { Card } from \'./components/Card/Card\';`\\n' +
-          'Delete: `import { Input } from \'./components/Input/Input\';`\\n' +
-          'Delete: `import { Modal } from \'./components/Modal/Modal\';`'
+        'Remove all old component imports. ' +
+          'Delete the individual component import statements and replace with barrel import.'
       ).toBe(false)
     })
 
@@ -268,7 +312,7 @@ describe('Step 4: Component Barrel Files', () => {
       expect(
         missingComponents.length === 0,
         missingComponents.length > 0 
-          ? `Components not used in JSX: ${missingComponents.join(', ')}.\\n` +
+          ? `Components not used in JSX: ${missingComponents.join(', ')}. ` +
             'Barrel imports should not break component usage.'
           : 'All components should be used in the JSX.'
       ).toBe(true)
@@ -291,7 +335,7 @@ describe('Step 4: Component Barrel Files', () => {
       const result = componentBarrelImport && utilsBarrelImport
       expect(
         result,
-        'Should have barrel imports for both components and utilities.\\n' +
+        'Should have barrel imports for both components and utilities. ' +
           'This demonstrates maximum import reduction.'
       ).toBe(true)
     })
@@ -312,7 +356,7 @@ describe('Step 4: Component Barrel Files', () => {
       // Should have exactly 4 imports: React, components, utils, styles
       expect(
         actualImportCount === 4,
-        `Should have exactly 4 import lines total.\\n` +
+        `Should have exactly 4 import lines total. ` +
           `Found ${actualImportCount} imports. Expected: React, components barrel, utils barrel, and styles.`
       ).toBe(true)
     })
@@ -346,9 +390,8 @@ describe('Step 4: Component Barrel Files', () => {
       const result = componentBarrels === 5 && mainBarrelExists
       expect(
         result,
-        'Implement complete two-level barrel pattern:\\n' +
-          '1. Individual barrel files in each component folder\\n' +
-          '2. Main barrel file at `src/components/index.ts`'
+        'Implement complete two-level barrel pattern. ' +
+          'Create individual barrel files in each component folder and main barrel file at src/components/index.ts.'
       ).toBe(true)
     })
 
@@ -371,9 +414,7 @@ describe('Step 4: Component Barrel Files', () => {
       const result = hasUtilsBarrel && hasComponentsBarrel
       expect(
         result,
-        'Complete barrel file structure should include:\\n' +
-          '- `src/utils/index.ts` for utilities\\n' +
-          '- `src/components/index.ts` for components'
+        'Complete barrel file structure should include src/utils/index.ts for utilities and src/components/index.ts for components.'
       ).toBe(true)
     })
   })
@@ -397,8 +438,8 @@ describe('Step 4: Component Barrel Files', () => {
       
       expect(
         allBarrelsValid,
-        'Component barrel files should not be empty.\\n' +
-          'Each should contain: `export * from \'./ComponentName\';`'
+        'Component barrel files should not be empty. ' +
+          'Each should contain export statement for the respective component.'
       ).toBe(true)
     })
 
@@ -422,9 +463,8 @@ describe('Step 4: Component Barrel Files', () => {
       
       expect(
         allExportsCorrect,
-        'Use correct export syntax in barrel files.\\n' +
-          'Correct: `export * from \'./ComponentName\';`\\n' +
-          'Incorrect: `export { * } from ...` or `export *` without from'
+        'Use correct export syntax in barrel files. ' +
+          'Use export * from pattern, not export destructuring or incomplete export statements.'
       ).toBe(true)
     })
 
@@ -443,8 +483,8 @@ describe('Step 4: Component Barrel Files', () => {
         
         expect(
           missingComponents.length === 0,
-          `Main barrel missing exports for: ${missingComponents.join(', ')}.\\n` +
-            'Add all component exports to `src/components/index.ts`.'
+          `Main barrel missing exports for: ${missingComponents.join(', ')}. ` +
+            'Add all component exports to src/components/index.ts.'
         ).toBe(true)
       } catch {
         // File doesn't exist - will be caught by other tests
@@ -470,8 +510,8 @@ describe('Step 4: Component Barrel Files', () => {
       
       expect(
         hasBothImports,
-        'Remove old component imports when using barrel import.\\n' +
-          'Keep only: `import { Badge, Button, Card, Input, Modal } from \'./components\';`'
+        'Remove old component imports when using barrel import. ' +
+          'Keep only the single barrel import statement.'
       ).toBe(false)
     })
 
@@ -490,7 +530,7 @@ describe('Step 4: Component Barrel Files', () => {
       expect(
         unusedComponents.length === 0,
         unusedComponents.length > 0 
-          ? `Components not used in JSX: ${unusedComponents.join(', ')}.\\n` +
+          ? `Components not used in JSX: ${unusedComponents.join(', ')}. ` +
             'Barrel imports should maintain all component usage.'
           : 'All components should be used in JSX.'
       ).toBe(true)

@@ -23,14 +23,11 @@ After Step 4, this becomes:
 import { Badge, Button, Card, Input, Modal } from './components';
 ```
 
-## [TASK] 1: Explore the Components Directory
+## Components Directory Structure
 
-1. Open `src/components/` in the **file explorer**
-2. Notice each component lives in its own folder
-3. Count the repetitive import lines in `App.tsx`
-4. Run validation: `bash ./task-runner.sh src/__tests__/step-4/component-barrels.test.ts @4.1`
+Open `src/components/` in the **file explorer** and notice each component lives in its own folder. Currently in `App.tsx`, you have 5 repetitive import lines that will be reduced to just 1 line using barrel files.
 
-## [TASK] 2: Create Individual Component Barrel Files
+## [TASK] 1: Create Individual Component Barrel Files
 
 1. Create `src/components/Badge/index.ts` with:
    ```typescript
@@ -57,9 +54,9 @@ import { Badge, Button, Card, Input, Modal } from './components';
    export * from './Modal';
    ```
 
-6. Run validation: `bash ./task-runner.sh src/__tests__/step-4/component-barrels.test.ts @4.2`
+6. Run validation: `bash ./task-runner.sh src/__tests__/step-4/component-barrels.test.ts @4.1 @4.2`
 
-## [TASK] 3: Create the Main Components Barrel
+## [TASK] 2: Create the Main Components Barrel
 
 1. Create `src/components/index.ts`
 2. Add these exports:
@@ -72,7 +69,7 @@ import { Badge, Button, Card, Input, Modal } from './components';
    ```
 3. Run validation: `bash ./task-runner.sh src/__tests__/step-4/component-barrels.test.ts @4.3`
 
-## [TASK] 4: Update App.tsx Imports
+## [TASK] 3: Update App.tsx Imports
 
 1. Replace all component imports with single barrel import:
    
@@ -91,8 +88,7 @@ import { Badge, Button, Card, Input, Modal } from './components';
    ```
 
 2. Verify the app works in your **browser**
-3. Run validation: `bash ./task-runner.sh src/__tests__/step-4/component-barrels.test.ts`
-4. Run comprehensive validation: `bash ./task-runner.sh src/__tests__/step-4/component-barrels.test.ts @4.7`
+3. Run validation: `bash ./task-runner.sh src/__tests__/step-4/component-barrels.test.ts @4.4`
 
 ## [MARKDOWN]
 
