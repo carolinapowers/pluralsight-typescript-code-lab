@@ -41,13 +41,23 @@ describe('Step 2: Import Chaos', () => {
     it('should display formatted purchase count in Product Card small element @2.1', () => {
       // Check that the Product Card specifically contains the formatNumber pattern
       // This regex ensures the formatNumber is in the Product Card context, not just anywhere
-      const productCardWithFormatNumber = /title="Product Card"[\s\S]*?footer=\{[\s\S]*?<small[^>]*>[^<]*Purchased by[^<]*\{[^}]*formatNumber\(15789\)[^}]*\}[^<]*developers[^<]*<\/small>[\s\S]*?\}/s.test(file);
-      
+      const productCardWithFormatNumber =
+        /title="Product Card"[\s\S]*?footer=\{[\s\S]*?<small[^>]*>[^<]*Purchased by[^<]*\{[^}]*formatNumber\(\s*15789\s*\)[^}]*\}[^<]*developers[^<]*<\/small>[\s\S]*?\}/s.test(
+          file
+        );
+
       // Basic validation
-      const hasProductCard = includes(astTs, 'JsxAttribute[name.name="title"] StringLiteral[value="Product Card"]');
-      const hasFormatNumberCall = includes(astTs, 'CallExpression Identifier[name="formatNumber"]');
-      
-      const result = hasProductCard && hasFormatNumberCall && productCardWithFormatNumber;
+      const hasProductCard = includes(
+        astTs,
+        'JsxAttribute[name.name="title"] StringLiteral[value="Product Card"]'
+      );
+      const hasFormatNumberCall = includes(
+        astTs,
+        'CallExpression Identifier[name="formatNumber"]'
+      );
+
+      const result =
+        hasProductCard && hasFormatNumberCall && productCardWithFormatNumber;
       expect(
         result,
         'Add {formatNumber(15789)} to the Product Card footer.\n' +
@@ -82,21 +92,48 @@ describe('Step 2: Import Chaos', () => {
         'ImportDeclaration NamespaceImport Identifier[name="AllValidators"]'
       );
 
-      const hasConsoleLogFormatters = includes(
-        astTs,
-        'CallExpression PropertyAccessExpression[expression.name="console"][name.name="log"]'
-      );
-
-      const result =
-        hasNamespaceFormatters &&
-        hasNamespaceValidators &&
-        hasConsoleLogFormatters;
+      const result = hasNamespaceFormatters && hasNamespaceValidators;
       expect(
         result,
         'Add these namespace imports to discover utilities:\n' +
           "import * as AllFormatters from './utils/formatters';\n" +
-          "import * as AllValidators from './utils/validators';\n" +
-          "Then add console.log statements to see what's available."
+          "import * as AllValidators from './utils/validators';"
+      ).toBe(true);
+    });
+
+    it('should have console.log statements for utility discovery @2.2', () => {
+      // Students should add console.log to see what utilities are available
+      const hasConsoleLog = includes(
+        astTs,
+        'CallExpression PropertyAccessExpression[expression.name="console"][name.name="log"]'
+      );
+
+      expect(
+        hasConsoleLog,
+        'Add console.log statements to discover what utilities are available.'
+      ).toBe(true);
+    });
+
+    it('should console.log AllFormatters and AllValidators @2.2', () => {
+      // Check that students are specifically logging the namespace imports
+      // The selector needs to find CallExpression where:
+      // 1. The expression is console.log
+      // 2. The argument is the identifier we're looking for
+      const hasConsoleLogFormatters = includes(
+        astTs,
+        'CallExpression:has(PropertyAccessExpression[expression.name="console"][name.name="log"]):has(Identifier[name="AllFormatters"])'
+      );
+      const hasConsoleLogValidators = includes(
+        astTs,
+        'CallExpression:has(PropertyAccessExpression[expression.name="console"][name.name="log"]):has(Identifier[name="AllValidators"])'
+      );
+
+      const result = hasConsoleLogFormatters && hasConsoleLogValidators;
+      expect(
+        result,
+        'Console.log both namespace imports to see available utilities:\n' +
+          'console.log(AllFormatters);\n' +
+          'console.log(AllValidators);'
       ).toBe(true);
     });
   });
@@ -126,11 +163,11 @@ describe('Step 2: Import Chaos', () => {
       // Students should clean up the console.log statements after discovery
       const hasConsoleLogFormatters = includes(
         astTs,
-        'CallExpression PropertyAccessExpression[expression.name="console"][name.name="log"] Identifier[name="AllFormatters"]'
+        'CallExpression:has(PropertyAccessExpression[expression.name="console"][name.name="log"]):has(Identifier[name="AllFormatters"])'
       );
       const hasConsoleLogValidators = includes(
         astTs,
-        'CallExpression PropertyAccessExpression[expression.name="console"][name.name="log"] Identifier[name="AllValidators"]'
+        'CallExpression:has(PropertyAccessExpression[expression.name="console"][name.name="log"]):has(Identifier[name="AllValidators"])'
       );
 
       const hasDiscoveryConsoleLog =
