@@ -4,7 +4,7 @@ import { Button } from './components/Button/Button';
 import { Card } from './components/Card/Card';
 import { Input } from './components/Input/Input';
 import { Modal } from './components/Modal/Modal';
-import { formatCurrency, formatDate } from './utils/formatters';
+import { formatCurrency, formatDate, formatNumber } from './utils/formatters';
 import { isValidEmail } from './utils/validators';
 import styles from './App.module.css';
 
@@ -88,9 +88,13 @@ export const App: React.FC = () => {
               footer={
                 <div className={styles.flexGroup}>
                   <Badge variant="success">In Stock</Badge>
-                  <span className={styles.priceTag}>
-                    {formatCurrency(99.99)}
-                  </span>
+                  <div>
+                    <span className={styles.priceTag}>
+                      {formatCurrency(99.99)}
+                    </span>
+                    <br />
+                    <small>Purchased by {formatNumber(15789)} developers</small>
+                  </div>
                 </div>
               }
             >
