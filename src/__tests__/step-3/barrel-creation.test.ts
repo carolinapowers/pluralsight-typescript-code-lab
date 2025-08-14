@@ -118,7 +118,7 @@ describe('Step 3: Barrel File Creation', () => {
       expect(
         result,
         'Replace separate imports with single barrel import:\n' +
-          'import { formatCurrency, formatDate, formatNumber, isValidEmail } from ./utils;'
+          "import { formatCurrency, formatDate, formatNumber, isValidEmail } from './utils;'"
       ).toBe(true);
     });
 
