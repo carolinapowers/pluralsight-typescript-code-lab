@@ -40,7 +40,7 @@ These utilities are currently imported from separate files in `App.tsx`, requiri
    export * from './validators';
    ```
 4. Verify the barrel file exports both modules
-5. Run validation: `bash ./task-runner.sh src/__tests__/step-3/barrel-creation.test.ts @3.1 @3.2 @3.4 @3.5 @3.6`
+5. Run validation: `bash ./task-runner.sh src/__tests__/step-3/barrel-creation.test.ts @3.1 @3.5`
 
 ## [TASK] 2: Update App.tsx to Use the Barrel File
 
@@ -58,7 +58,7 @@ These utilities are currently imported from separate files in `App.tsx`, requiri
    ```
 
 2. Verify the app still works correctly in your **browser**
-3. Run validation: `bash ./task-runner.sh src/__tests__/step-3/barrel-creation.test.ts @3.1 @3.2 @3.3 @3.4 @3.5 @3.6`
+3. Run validation: `bash ./task-runner.sh src/__tests__/step-3/barrel-creation.test.ts @3.2 @3.3`
 
 ## [MARKDOWN]
 
