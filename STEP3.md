@@ -20,15 +20,15 @@ After Step 3, this becomes:
 import { formatCurrency, formatDate, formatNumber, isValidEmail } from './utils';
 ```
 
-## [TASK] 1: Explore the Utils Directory Structure
+## Current Utils Structure
 
-1. Open the `src/utils/` folder in the **file explorer**
-2. Review the current structure:
-   - `formatters.ts` - Contains formatting utilities
-   - `validators.ts` - Contains validation utilities
-3. Run validation: `bash ./task-runner.sh src/__tests__/step-3/barrel-creation.test.ts @3.1 @3.4 @3.5 @3.6`
+The `src/utils/` folder contains:
+- `formatters.ts` - Formatting utilities (formatCurrency, formatDate, formatNumber)
+- `validators.ts` - Validation utilities (isValidEmail)
 
-## [TASK] 2: Create Your First Barrel File
+These utilities are currently imported from separate files in `App.tsx`, requiring multiple import statements.
+
+## [TASK] 1: Create Your First Barrel File
 
 1. Create a new file: `src/utils/index.ts`
 2. Add re-exports for all formatters:
@@ -42,7 +42,7 @@ import { formatCurrency, formatDate, formatNumber, isValidEmail } from './utils'
 4. Verify the barrel file exports both modules
 5. Run validation: `bash ./task-runner.sh src/__tests__/step-3/barrel-creation.test.ts @3.1 @3.2 @3.4 @3.5 @3.6`
 
-## [TASK] 3: Update App.tsx to Use the Barrel File
+## [TASK] 2: Update App.tsx to Use the Barrel File
 
 1. Replace the separate utility imports with a single barrel import:
    

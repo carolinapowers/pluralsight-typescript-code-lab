@@ -4,7 +4,7 @@
 
 You'll explore the current import structure and experience the pain of managing multiple imports before learning how barrel files solve this problem.
 
-Navigate to {{localhost:3000}} to see the Design System Showcase with buttons, inputs, cards, and other components. Vite watches for changes and automatically updates the browser as you edit files (no manual save needed in Pluralsight Code Labs).
+**Note:** Make sure you're running the development server with `npm run dev`, then navigate to {{localhost:3000}} to see the Design System Showcase with buttons, inputs, cards, and other components. Vite watches for changes and automatically updates the browser as you edit files (no manual save needed in Pluralsight Code Labs).
 
 ## The Current State
 
@@ -28,7 +28,7 @@ The repetitive `./components/[Name]/[Name]` pattern becomes painful as applicati
 
 1. Explore `src/utils/formatters.ts` to find available formatting functions
 2. Add `formatNumber` to your existing formatter imports in `App.tsx`
-3. In the **Product Card** section, add: "Purchased by 15,789 developers"
+3. In the **Product Card** section, replace `???` with `{formatNumber(15789)}`
 4. Verify the formatted number appears in your browser (files save automatically)
 5. Run validation: `bash ./task-runner.sh src/__tests__/step-2/import-chaos.test.ts @2.1 @2.4 @2.5 @2.6`
 
