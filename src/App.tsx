@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Badge, Button, Card, Input, Modal } from './components';
+import { Button, FormInput } from './components/core';
+import { StatusBadge, ContentCard } from './components/display';
+import { Modal } from './components/overlay';
 import { formatCurrency, formatDate, formatNumber, isValidEmail } from './utils';
 import styles from './App.module.css';
 
@@ -25,10 +27,10 @@ export const App: React.FC = () => {
           A complete TypeScript design system built with barrel file patterns
         </p>
         <div className={styles.headerBadges}>
-          <Badge variant="primary">TypeScript</Badge>
-          <Badge variant="success">React</Badge>
-          <Badge variant="warning">Design System</Badge>
-          <Badge variant="secondary">Barrel Files</Badge>
+          <StatusBadge variant="primary">TypeScript</StatusBadge>
+          <StatusBadge variant="success">React</StatusBadge>
+          <StatusBadge variant="warning">Design System</StatusBadge>
+          <StatusBadge variant="secondary">Barrel Files</StatusBadge>
         </div>
       </header>
 
@@ -55,15 +57,15 @@ export const App: React.FC = () => {
         <section className={styles.componentGroup}>
           <h2 className={styles.groupTitle}>Inputs</h2>
           <form className={styles.exampleGrid}>
-            <Input
+            <FormInput
               placeholder="Enter your email"
               value={email}
               onChange={handleEmailChange}
               error={!!emailError}
               errorMessage={emailError}
             />
-            <Input type="password" placeholder="Password" />
-            <Input placeholder="Disabled input" disabled />
+            <FormInput type="password" placeholder="Password" />
+            <FormInput placeholder="Disabled input" disabled />
           </form>
         </section>
 
@@ -71,18 +73,18 @@ export const App: React.FC = () => {
         <section className={styles.componentGroup}>
           <h2 className={styles.groupTitle}>Cards</h2>
           <div className={styles.exampleGrid}>
-            <Card title="Basic Card" subtitle="This is a subtitle">
+            <ContentCard title="Basic Card" subtitle="This is a subtitle">
               <p>
                 This is the card content. Cards are great for organizing related
                 information.
               </p>
-            </Card>
+            </ContentCard>
 
-            <Card
+            <ContentCard
               title="Product Card"
               footer={
                 <div className={styles.flexGroup}>
-                  <Badge variant="success">In Stock</Badge>
+                  <StatusBadge variant="success">In Stock</StatusBadge>
                   <div>
                     <span className={styles.priceTag}>
                       {formatCurrency(99.99)}
@@ -97,15 +99,15 @@ export const App: React.FC = () => {
               <p className={styles.cardDescription}>
                 Learn advanced patterns and best practices
               </p>
-            </Card>
+            </ContentCard>
 
-            <Card title="Date Example">
+            <ContentCard title="Date Example">
               <p>Today's date: {formatDate(new Date(), 'long')}</p>
               <p>
                 Relative:{' '}
                 {formatDate(new Date(Date.now() - 86400000), 'relative')}
               </p>
-            </Card>
+            </ContentCard>
           </div>
         </section>
 
@@ -137,21 +139,21 @@ export const App: React.FC = () => {
         <section className={styles.componentGroup}>
           <h2 className={styles.groupTitle}>Badges</h2>
           <div className={styles.flexGroup}>
-            <Badge variant="primary">Primary</Badge>
-            <Badge variant="secondary">Secondary</Badge>
-            <Badge variant="success">Success</Badge>
-            <Badge variant="warning">Warning</Badge>
-            <Badge variant="danger">Danger</Badge>
+            <StatusBadge variant="primary">Primary</StatusBadge>
+            <StatusBadge variant="secondary">Secondary</StatusBadge>
+            <StatusBadge variant="success">Success</StatusBadge>
+            <StatusBadge variant="warning">Warning</StatusBadge>
+            <StatusBadge variant="danger">Danger</StatusBadge>
           </div>
           <div className={styles.flexGroup}>
-            <Badge size="sm">Small</Badge>
-            <Badge size="md">Medium</Badge>
-            <Badge size="lg">Large</Badge>
+            <StatusBadge size="sm">Small</StatusBadge>
+            <StatusBadge size="md">Medium</StatusBadge>
+            <StatusBadge size="lg">Large</StatusBadge>
           </div>
           <div className={styles.flexGroup}>
-            <Badge dot variant="primary" />
-            <Badge dot variant="success" />
-            <Badge dot variant="danger" />
+            <StatusBadge dot variant="primary" />
+            <StatusBadge dot variant="success" />
+            <StatusBadge dot variant="danger" />
             <span>Status indicators</span>
           </div>
         </section>
