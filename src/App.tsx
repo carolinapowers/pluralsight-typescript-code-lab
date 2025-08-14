@@ -4,8 +4,7 @@ import { Button } from './components/Button/Button';
 import { Card } from './components/Card/Card';
 import { Input } from './components/Input/Input';
 import { Modal } from './components/Modal/Modal';
-import { formatCurrency, formatDate, formatNumber } from './utils/formatters';
-import { isValidEmail } from './utils/validators';
+import { formatCurrency, formatDate, formatNumber, isValidEmail } from './utils';
 import styles from './App.module.css';
 
 export const App: React.FC = () => {
