@@ -56,13 +56,43 @@ fi
 
 # Run tests with custom reporter
 if [[ -n "$2" ]]; then
-  CI=true npx vitest run --reporter=./reporter.ts --no-coverage "$1" --testNamePattern="$2"
+  # Multiple tags provided - run each in sequence until first failure
+  test_file="$1"
+  shift # Remove first argument (test file)
+  
+  overall_exit_code=0
+  
+  # Run tests for each tag
+  for tag in "$@"; do
+    # Capture output in a temp file
+    temp_output=$(mktemp)
+    CI=true npx vitest run --reporter=./reporter.ts --no-coverage "$test_file" --testNamePattern="$tag" > "$temp_output" 2>&1
+    exit_code=$?
+    
+    if [[ $exit_code -ne 0 ]]; then
+      # Test failed - display the error message and stop
+      cat "$temp_output"
+      rm "$temp_output"
+      overall_exit_code=$exit_code
+      break
+    fi
+    # Test passed - don't display anything, continue to next tag
+    rm "$temp_output"
+  done
+  
+  exit_code=$overall_exit_code
+  
+  # If all tests passed, show success message
+  if [[ $exit_code -eq 0 ]]; then
+    echo "All tests passed successfully!"
+  fi
 else
+  # No tags provided - run all tests in file
   CI=true npx vitest run --reporter=./reporter.ts --no-coverage "$1"
+  exit_code=$?
 fi
 
 # Check exit code
-exit_code=$?
 if [[ $exit_code -ne 0 && $exit_code -ne 1 ]]; then
   # Exit code 1 is normal for failing tests, other codes indicate errors
   echo -e "${RED}🚨 Oops! Something unexpected happened while checking your code.${NC}"
@@ -75,5 +105,6 @@ fi
 exit $exit_code
 
 # Usage examples:
-# ./task-runner.sh src/__tests__/step-2/import-chaos.test.ts       - run all tests in file
-# ./task-runner.sh src/__tests__/step-2/import-chaos.test.ts @2.1  - run tests with @2.1 tag
+# ./task-runner.sh src/__tests__/step-2/import-chaos.test.ts          - run all tests in file
+# ./task-runner.sh src/__tests__/step-2/import-chaos.test.ts @2.1     - run tests with @2.1 tag
+# ./task-runner.sh src/__tests__/step-2/import-chaos.test.ts @2.1 @2.3 - run tests with @2.1 and @2.3 tags

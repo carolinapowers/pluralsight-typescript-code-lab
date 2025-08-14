@@ -24,234 +24,297 @@ describe('Step 2: Import Chaos', () => {
       const hasFormatNumberImport = includes(
         astTs,
         'ImportDeclaration StringLiteral[value="./utils/formatters"]'
-      )
+      );
       const hasFormatNumberIdentifier = includes(
         astTs,
         'ImportSpecifier Identifier[name="formatNumber"]'
-      )
-      
-      const result = hasFormatNumberImport && hasFormatNumberIdentifier
+      );
+
+      const result = hasFormatNumberImport && hasFormatNumberIdentifier;
       expect(
         result,
         "Add formatNumber to the import from './utils/formatters'.\n" +
-        "Use: { formatCurrency, formatDate, formatNumber }"
-      ).toBe(true)
-    })
+          'Use: { formatCurrency, formatDate, formatNumber }'
+      ).toBe(true);
+    });
 
-    it('should display formatted purchase count in Product Card @2.1', () => {
-      // Check for the purchase count text and formatNumber usage
-      const hasPurchasedByText = includes(
-        astTs,
-        'StringLiteral[value*="Purchased by"]'
-      ) || includes(
-        astTs,
-        'JsxText[text*="Purchased by"]'
-      )
+    it('should display formatted purchase count in Product Card small element @2.1', () => {
+      // Check that the Product Card specifically contains the formatNumber pattern
+      // This regex ensures the formatNumber is in the Product Card context, not just anywhere
+      const productCardWithFormatNumber = /title="Product Card"[\s\S]*?footer=\{[\s\S]*?<small[^>]*>[^<]*Purchased by[^<]*\{[^}]*formatNumber\(15789\)[^}]*\}[^<]*developers[^<]*<\/small>[\s\S]*?\}/s.test(file);
       
-      const hasFormatNumberCall = includes(
-        astTs,
-        'CallExpression Identifier[name="formatNumber"]'
-      )
+      // Basic validation
+      const hasProductCard = includes(astTs, 'JsxAttribute[name.name="title"] StringLiteral[value="Product Card"]');
+      const hasFormatNumberCall = includes(astTs, 'CallExpression Identifier[name="formatNumber"]');
       
-      const result = hasPurchasedByText && hasFormatNumberCall
+      const result = hasProductCard && hasFormatNumberCall && productCardWithFormatNumber;
       expect(
         result,
-        'Add this text to the Product Card:\n' +
-        '"Purchased by {formatNumber(15789)} developers"'
-      ).toBe(true)
-    })
+        'Add {formatNumber(15789)} to the Product Card footer.\n' +
+          'Place it in the <small> element that says "Purchased by ... developers"'
+      ).toBe(true);
+    });
 
     it('should use formatNumber function with correct parameter @2.1', () => {
       // Verify formatNumber is called with 15789
       const formatNumberWith15789 = includes(
         astTs,
         'CallExpression[expression.name="formatNumber"] NumericLiteral[value="15789"]'
-      ) || includes(
-        astTs,
-        'CallExpression Identifier[name="formatNumber"]'
-      )
-      
+      );
+
       expect(
         formatNumberWith15789,
-        'Call formatNumber(15789)'
-      ).toBe(true)
-    })
-  })
+        'Call formatNumber with the number 15789.\n' +
+          'Use: formatNumber(15789)'
+      ).toBe(true);
+    });
+  });
 
   describe('Task 2: Discover Hidden Utilities', () => {
-    it('should not have namespace imports left in the code @2.2', () => {
+    it('should have namespace imports for discovery @2.2', () => {
+      // Students should add namespace imports to discover utilities
+      const hasNamespaceFormatters = includes(
+        astTs,
+        'ImportDeclaration NamespaceImport Identifier[name="AllFormatters"]'
+      );
+      const hasNamespaceValidators = includes(
+        astTs,
+        'ImportDeclaration NamespaceImport Identifier[name="AllValidators"]'
+      );
+
+      const hasConsoleLogFormatters = includes(
+        astTs,
+        'CallExpression PropertyAccessExpression[expression.name="console"][name.name="log"]'
+      );
+
+      const result =
+        hasNamespaceFormatters &&
+        hasNamespaceValidators &&
+        hasConsoleLogFormatters;
+      expect(
+        result,
+        'Add these namespace imports to discover utilities:\n' +
+          "import * as AllFormatters from './utils/formatters';\n" +
+          "import * as AllValidators from './utils/validators';\n" +
+          "Then add console.log statements to see what's available."
+      ).toBe(true);
+    });
+  });
+
+  describe('Task 3: Clean Up Discovery Code', () => {
+    it('should not have namespace imports left in the code @2.3', () => {
       // After discovery, students should remove the temporary namespace imports
       const hasNamespaceFormatters = includes(
         astTs,
         'ImportDeclaration NamespaceImport Identifier[name="AllFormatters"]'
-      )
+      );
       const hasNamespaceValidators = includes(
         astTs,
         'ImportDeclaration NamespaceImport Identifier[name="AllValidators"]'
-      )
-      
-      const hasAnyNamespaceImports = hasNamespaceFormatters || hasNamespaceValidators
+      );
+
+      const hasAnyNamespaceImports =
+        hasNamespaceFormatters || hasNamespaceValidators;
       expect(
         hasAnyNamespaceImports,
         'Remove the temporary namespace imports\n' +
-        '(import * as AllFormatters) after discovery.'
-      ).toBe(false)
-    })
+          '(import * as AllFormatters) after discovery.'
+      ).toBe(false);
+    });
 
-    it('should not have console.log statements for utility discovery @2.2', () => {
+    it('should not have console.log statements for utility discovery @2.3', () => {
       // Students should clean up the console.log statements after discovery
       const hasConsoleLogFormatters = includes(
         astTs,
         'CallExpression PropertyAccessExpression[expression.name="console"][name.name="log"] Identifier[name="AllFormatters"]'
-      )
+      );
       const hasConsoleLogValidators = includes(
         astTs,
         'CallExpression PropertyAccessExpression[expression.name="console"][name.name="log"] Identifier[name="AllValidators"]'
-      )
-      
-      const hasDiscoveryConsoleLog = hasConsoleLogFormatters || hasConsoleLogValidators
+      );
+
+      const hasDiscoveryConsoleLog =
+        hasConsoleLogFormatters || hasConsoleLogValidators;
       expect(
         hasDiscoveryConsoleLog,
-        'Remove the console.log statements\n' +
-        'used for utility discovery.'
-      ).toBe(false)
-    })
+        'Remove the console.log statements\n' + 'used for utility discovery.'
+      ).toBe(false);
+    });
 
-    it('should have completed the utility discovery process @2.2', () => {
+    it('should have completed the utility discovery process @2.3', () => {
       // Verify the original imports are still there and new formatNumber is added
       const hasOriginalFormattersImport = includes(
         astTs,
         'ImportDeclaration StringLiteral[value="./utils/formatters"]'
-      )
+      );
       const hasOriginalValidatorsImport = includes(
         astTs,
         'ImportDeclaration StringLiteral[value="./utils/validators"]'
-      )
+      );
       const hasFormatNumberImport = includes(
         astTs,
         'ImportSpecifier Identifier[name="formatNumber"]'
-      )
-      
-      const result = hasOriginalFormattersImport && hasOriginalValidatorsImport && hasFormatNumberImport
+      );
+
+      const result =
+        hasOriginalFormattersImport &&
+        hasOriginalValidatorsImport &&
+        hasFormatNumberImport;
       expect(
         result,
         'Complete these steps:\n' +
-        '1) Keep original imports from formatters and validators\n' +
-        '2) Add formatNumber to formatters import\n' +
-        '3) Remove temporary namespace imports and console.log statements'
-      ).toBe(true)
-    })
-  })
+          '1) Keep original imports from formatters and validators\n' +
+          '2) Add formatNumber to formatters import\n' +
+          '3) Remove temporary namespace imports and console.log statements'
+      ).toBe(true);
+    });
+  });
 
   describe('Import Pattern Analysis', () => {
-    it('should demonstrate the import chaos problem @2.3', () => {
+    it('should demonstrate the import chaos problem @2.4', () => {
       // Count the number of import lines to show the growing complexity
       const componentImports = [
         'ImportDeclaration StringLiteral[value="./components/Badge/Badge"]',
-        'ImportDeclaration StringLiteral[value="./components/Button/Button"]', 
+        'ImportDeclaration StringLiteral[value="./components/Button/Button"]',
         'ImportDeclaration StringLiteral[value="./components/Card/Card"]',
         'ImportDeclaration StringLiteral[value="./components/Input/Input"]',
-        'ImportDeclaration StringLiteral[value="./components/Modal/Modal"]'
-      ]
-      
-      const importCount = componentImports.filter(importPath => 
+        'ImportDeclaration StringLiteral[value="./components/Modal/Modal"]',
+      ];
+
+      const importCount = componentImports.filter((importPath) =>
         includes(astTs, importPath)
-      ).length
-      
+      ).length;
+
       expect(
         importCount >= 4,
-        'You need at least 4 component imports.\n' +
-        'This shows the repetitive pattern that barrel files solve.'
-      ).toBe(true)
-    })
+        'This file should contain need at least 4 component imports.\n' +
+          'This shows the repetitive pattern that barrel files solve.'
+      ).toBe(true);
+    });
 
-    it('should show the path complexity that barrels will solve @2.3', () => {
+    it('should show the path complexity that barrels will solve @2.4', () => {
       // Check for utility imports that will be simplified by barrels
       const utilityImports = [
         'ImportDeclaration StringLiteral[value="./utils/formatters"]',
-        'ImportDeclaration StringLiteral[value="./utils/validators"]'
-      ]
-      
-      const hasUtilityImports = utilityImports.every(importPath =>
+        'ImportDeclaration StringLiteral[value="./utils/validators"]',
+      ];
+
+      const hasUtilityImports = utilityImports.every((importPath) =>
         includes(astTs, importPath)
-      )
-      
+      );
+
       expect(
         hasUtilityImports,
         'Keep both utility imports.\n' +
-        'These will be simplified with barrel files in Step 3.'
-      ).toBe(true)
-    })
-  })
+          'These will be simplified with barrel files in Step 3.'
+      ).toBe(true);
+    });
+  });
 
   describe('Development Environment', () => {
-    it('should be ready for the next step @2.4', () => {
+    it('should be ready for the next step @2.5', () => {
       // Verify the basic structure is in place for barrel file creation
-      const hasReactImport = includes(astTs, 'ImportDeclaration StringLiteral[value="react"]')
-      const hasFormattersImport = includes(astTs, 'ImportDeclaration StringLiteral[value="./utils/formatters"]')
-      const hasValidatorsImport = includes(astTs, 'ImportDeclaration StringLiteral[value="./utils/validators"]')
-      
-      const result = hasReactImport && hasFormattersImport && hasValidatorsImport
+      const hasReactImport = includes(
+        astTs,
+        'ImportDeclaration StringLiteral[value="react"]'
+      );
+      const hasFormattersImport = includes(
+        astTs,
+        'ImportDeclaration StringLiteral[value="./utils/formatters"]'
+      );
+      const hasValidatorsImport = includes(
+        astTs,
+        'ImportDeclaration StringLiteral[value="./utils/validators"]'
+      );
+      const hasStylesImport = includes(
+        astTs,
+        'ImportDeclaration StringLiteral[value="./App.module.css"]'
+      );
+
+      // Check for at least some component imports
+      const componentImports = [
+        'ImportDeclaration StringLiteral[value="./components/Badge/Badge"]',
+        'ImportDeclaration StringLiteral[value="./components/Button/Button"]',
+        'ImportDeclaration StringLiteral[value="./components/Card/Card"]',
+        'ImportDeclaration StringLiteral[value="./components/Input/Input"]',
+        'ImportDeclaration StringLiteral[value="./components/Modal/Modal"]',
+      ];
+
+      const componentImportCount = componentImports.filter((importPath) =>
+        includes(astTs, importPath)
+      ).length;
+
+      const result =
+        hasReactImport &&
+        hasFormattersImport &&
+        hasValidatorsImport &&
+        hasStylesImport &&
+        componentImportCount >= 3;
       expect(
         result,
-        'Your App.tsx has the necessary imports.\n' +
-        'Continue to Step 3.'
-      ).toBe(true)
-    })
-  })
+        'App.tsx needs these imports to work properly:\n' +
+          '- React from "react"\n' +
+          '- At least 3 component imports (Badge, Button, Card, Input, Modal)\n' +
+          '- Formatters from "./utils/formatters"\n' +
+          '- Validators from "./utils/validators"\n' +
+          '- Styles from "./App.module.css"'
+      ).toBe(true);
+    });
+  });
 
   describe('Utility Functions Available', () => {
-    it('should have access to all formatter utilities @2.5', async () => {
+    it('should have access to all formatter utilities @2.6', async () => {
       // Test the utilities are accessible and working
-      const formatters = await import('../../utils/formatters')
-      
-      const hasFormatNumber = typeof formatters.formatNumber === 'function'
-      const hasFormatCurrency = typeof formatters.formatCurrency === 'function'
-      const hasFormatDate = typeof formatters.formatDate === 'function'
-      
-      const result = hasFormatNumber && hasFormatCurrency && hasFormatDate
+      const formatters = await import('../../utils/formatters');
+
+      const hasFormatNumber = typeof formatters.formatNumber === 'function';
+      const hasFormatCurrency = typeof formatters.formatCurrency === 'function';
+      const hasFormatDate = typeof formatters.formatDate === 'function';
+
+      const result = hasFormatNumber && hasFormatCurrency && hasFormatDate;
       expect(
         result,
         'Verify utils/formatters exports:\n' +
-        'formatNumber, formatCurrency, and formatDate.'
-      ).toBe(true)
-      
+          'formatNumber, formatCurrency, and formatDate.'
+      ).toBe(true);
+
       // Test formatNumber specifically
       if (hasFormatNumber) {
-        const formatted = formatters.formatNumber(15789)
+        const formatted = formatters.formatNumber(15789);
         expect(
           formatted === '15,789',
           'formatNumber(15789) should return "15,789"'
-        ).toBe(true)
+        ).toBe(true);
       }
-    })
+    });
 
-    it('should have access to all validator utilities @2.5', async () => {
+    it('should have access to all validator utilities @2.6', async () => {
       // Test the validators are accessible and working
-      const validators = await import('../../utils/validators')
-      
-      const hasIsValidEmail = typeof validators.isValidEmail === 'function'
-      const hasIsValidPassword = typeof validators.isValidPassword === 'function'
-      const hasIsRequired = typeof validators.isRequired === 'function'
-      
-      const result = hasIsValidEmail && hasIsValidPassword && hasIsRequired
+      const validators = await import('../../utils/validators');
+
+      const hasIsValidEmail = typeof validators.isValidEmail === 'function';
+      const hasIsValidPassword =
+        typeof validators.isValidPassword === 'function';
+      const hasIsRequired = typeof validators.isRequired === 'function';
+
+      const result = hasIsValidEmail && hasIsValidPassword && hasIsRequired;
       expect(
         result,
         'All validator utilities should be accessible.\n' +
-        'Check utils/validators exports validation functions.'
-      ).toBe(true)
-      
+          'Check utils/validators exports validation functions.'
+      ).toBe(true);
+
       // Test isValidEmail specifically
       if (hasIsValidEmail) {
-        const validEmail = validators.isValidEmail('test@example.com')
-        const invalidEmail = validators.isValidEmail('invalid')
+        const validEmail = validators.isValidEmail('test@example.com');
+        const invalidEmail = validators.isValidEmail('invalid');
         expect(
           validEmail === true && invalidEmail === false,
           'isValidEmail should correctly validate email addresses'
-        ).toBe(true)
+        ).toBe(true);
       }
-    })
-  })
+    });
+  });
 })
 
 // Run tests and get custom messages using npm script:
